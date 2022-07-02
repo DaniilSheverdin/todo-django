@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>Список дел</title>
+	</head>
+	<body>
+		<h1>Список дел</h1>
+		<hr>
+		<table>
+		<tr>
+			<th>Заголовок</th>
+			<th>Дата создания</th>
+			<th>Дедлайн</th>
+		</tr>
+		{% for el in object_list %}
+		<tr>
+			<td>{{el.title}}</td>
+			<td>{{el.create|date:"d.m.Y H:i"}}</td>
+			<td>{{el.deadline|date:"d.m.Y H:i"}}</td>
+		</tr>
+		{%empty%}
+		<h3>В списке нет элементов</h3>
+		{%endfor%}					
+		</table>
+		
+	</body>
+</html>
