@@ -12,17 +12,26 @@
 			<th>Заголовок</th>
 			<th>Дата создания</th>
 			<th>Дедлайн</th>
+			<th>Статус</th>
 		</tr>
-		{% for el in object_list %}
+		{% for el in tasks %}
 		<tr>
 			<td>{{el.title}}</td>
 			<td>{{el.create|date:"d.m.Y H:i"}}</td>
 			<td>{{el.deadline|date:"d.m.Y H:i"}}</td>
+			{%if el.isComplete%}
+			<td>Готово!</td>
+			{%else%}
+			<td>В работе...</td>
+			{%endif%}
+			<td><a href="{%url 'task' el.id%}">Подробнее</a></td>
+			<td><a href="{%url 'update-task' el.id%}">Редактировать</a></td>
+			<td><a href="{%url 'delete-task' el.id%}">Удалить</a></td>
 		</tr>
 		{%empty%}
 		<h3>В списке нет элементов</h3>
 		{%endfor%}					
 		</table>
-		
+	<a href="{%url 'add-task'%}">Добавить задачу</a>
 	</body>
 </html>
