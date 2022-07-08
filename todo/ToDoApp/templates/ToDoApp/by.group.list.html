@@ -6,8 +6,9 @@
 	</head>
 	<body>
 		<h1>Список дел</h1>
+		<h2>Категория: {{current_group}}</h2>	
 		<h3>Категории:</h3>
-		<table>
+			<table>
 				{% for g in groups %}
 				<tr>
 					<td><a href="{% url 'group' g.id %}">{{g.name}}</a></td>
@@ -15,11 +16,11 @@
 					<td><a href="{%url 'update-group' g.id%}">редактировать</a></td>
 				</tr>
 				{% endfor %}
-		</table>	
-		<br>
-		<div>
-			<a href="{% url 'add-group' %}">Добавить категорию</a>
-		</div>
+			</table>	
+			<br>
+			<div>
+				<a href="">Добавить категорию</a>
+			</div>
 		<hr>
 		<h3>Задачи:</h3>
 		<table>
@@ -42,5 +43,7 @@
 		{%endfor%}					
 		</table>
 	<a href="{%url 'add-task'%}">Добавить задачу</a>
+	<br><br>
+	<a href="{%url 'tasks'%}">К списку</a>
 	</body>
 </html>
