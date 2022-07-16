@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='UTF-8'>
+		<title>{% block title %}{% endblock %}</title>
+	</head>
+	<body>
+		{% if request.user.is_authenticated %}
+		<header>
+			<a href="{%url 'tasks'%}">Задачи</a>
+			<a href="{%url 'groups'%}">Категории</a>
+			<p>{{request.user}} <a href="{% url 'logout' %}">Выход</a></p>
+			<hr/>
+		</header>
+		<section>
+			{% block content %}
+			{% endblock %}
+		</section>
+		{% else %}
+		<a href="{% url 'login' %}">Войти</a>
+		{% endif %}
+	</body>
+</html>

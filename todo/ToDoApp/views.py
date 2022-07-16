@@ -7,17 +7,28 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Group, Task
 from django.contrib.auth.models import User
-# Create your views here.
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-'''class TaskList(ListView):
-    """controller for show task list"""
-    model = Task
-    context_object_name = "tasks"
-    template_name = 'ToDoApp/task.list.html'''
+class CustomLoginView(LoginView):
+    """crontroller for user login"""
+    template_name = "ToDoApp/login.html"
+    fields = '__all__'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('tasks')
 
 
-class TaskList(ListView):
+class GroupList(LoginRequiredMixin, ListView):
+    """controller for show group list"""
+    model = Group
+    context_object_name = "groups"
+    template_name = 'ToDoApp/group.list.html'''
+
+
+class TaskList(LoginRequiredMixin, ListView):
     """controller for show task list"""
     model = Task
     context_object_name = "tasks_n_group"
@@ -35,7 +46,7 @@ class TaskList(ListView):
         return Task.objects.all()
 
 
-class TaskGroup(ListView):
+class TaskGroup(LoginRequiredMixin, ListView):
     """controller for show task list by group"""
     model = Task
     context_object_name = "tasks_n_group"
@@ -54,14 +65,14 @@ class TaskGroup(ListView):
         return Task.objects.all()
 
 
-class TaskDetail(DetailView):
+class TaskDetail(LoginRequiredMixin, DetailView):
     """controller for show single task"""
     model = Task
     context_object_name = "task"
     template_name = 'ToDoApp/task.html'
 
 
-class TaskCreate(CreateView):
+class TaskCreate(LoginRequiredMixin, CreateView):
     """controller for create task"""
     model = Task
     fields = "__all__"
@@ -69,7 +80,7 @@ class TaskCreate(CreateView):
     template_name = 'ToDoApp/add.task.form.html'
 
 
-class GroupCreate(CreateView):
+class GroupCreate(LoginRequiredMixin, CreateView):
     """controller for create group"""
     model = Group
     fields = ['name']
@@ -87,7 +98,7 @@ class GroupCreate(CreateView):
         return super().form_valid(form)
 
 
-class TaskUpdate(UpdateView):
+class TaskUpdate(LoginRequiredMixin, UpdateView):
     """controller for update task"""
     model = Task
     fields = "__all__"
@@ -95,7 +106,7 @@ class TaskUpdate(UpdateView):
     template_name = 'ToDoApp/add.task.form.html'
 
 
-class GroupUpdate(UpdateView):
+class GroupUpdate(LoginRequiredMixin, UpdateView):
     """controller for update group"""
     model = Group
     fields = ['name']
@@ -103,14 +114,14 @@ class GroupUpdate(UpdateView):
     template_name = 'ToDoApp/add.group.form.html'
 
 
-class TaskDelete(DeleteView):
+class TaskDelete(LoginRequiredMixin, DeleteView):
     """controller for delete task"""
     model = Task
     success_url = reverse_lazy('tasks')
     template_name = 'ToDoApp/task.delete.confirm.html'
 
 
-class GroupDelete(DeleteView):
+class GroupDelete(LoginRequiredMixin, DeleteView):
     """controller for delete task"""
     model = Group
     success_url = reverse_lazy('tasks')

@@ -1,2 +1,21 @@
+{% extends "layout/basic.html" %}
+{% block title %}Задача: "{{task}}"{% endblock %}
+{% block content %}
 <h3>Задача: "{{task}}"</h3>
+<p>{{task.create|date:"d.m.Y"}}</p>
+{%if task.description%}
+	<p>Описание: {{task.description}}</p>
+{%endif%}
+{%if task.isComplete%}
+{%if task.deadline%}
+	<p>Крайний срок: {{task.deadline|date:"d.m.Y H:i"}}</p>
+{%endif%}
+	<p>Статус задачи: Готово!</p>
+{%else%}
+	<p>Статус задачи: В работе...</p>
+{%endif%}
+{%if task.group%}
+	<p>Группа: <a href="{%url 'group' task.group.id %}">{{task.group}}</a></p>
+{%endif%}
 <a href="{%url 'tasks'%}">К списку</a>
+{% endblock %}

@@ -1,49 +1,25 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='UTF-8'>
-		<title>Список дел</title>
-	</head>
-	<body>
-		<h1>Список дел</h1>
-		<h2>Категория: {{current_group}}</h2>	
-		<h3>Категории:</h3>
-			<table>
-				{% for g in groups %}
-				<tr>
-					<td><a href="{% url 'group' g.id %}">{{g.name}}</a></td>
-					<td><a href="{%url 'delete-group' g.id%}">удалить</a></td>
-					<td><a href="{%url 'update-group' g.id%}">редактировать</a></td>
-				</tr>
-				{% endfor %}
-			</table>	
-			<br>
-			<div>
-				<a href="">Добавить категорию</a>
-			</div>
-		<hr>
+{% extends "layout/basic.html" %}
+{% block title %}Категория: {{current_group}}{% endblock %}
+{% block content %}
+		<h2>Категория: {{current_group}}</h2>
 		<h3>Задачи:</h3>
 		<table>
-		{% for el in tasks %}
-		<tr>
-			<td>{{el.title}}</td>
-			<td>{{el.create|date:"d.m.Y H:i"}}</td>
-			<td>{{el.deadline|date:"d.m.Y H:i"}}</td>
-			{%if el.isComplete%}
-			<td>Готово!</td>
-			{%else%}
-			<td>В работе...</td>
-			{%endif%}
-			<td><a href="{%url 'task' el.id%}">Подробнее</a></td>
-			<td><a href="{%url 'update-task' el.id%}">Редактировать</a></td>
-			<td><a href="{%url 'delete-task' el.id%}">Удалить</a></td>
-		</tr>
-		{%empty%}
-		<h3>В списке нет элементов</h3>
-		{%endfor%}					
+			<th>Название</th>
+			<th>Категория</th>
+			<th>Крайний срок</th>
+			{% for el in tasks %}
+			<tr>
+				<td>{{el.title}}</td>
+				<td>{% if el.group != null %}<a href="{% url 'group' el.group.id %}">{{el.group}}</a>{% else %}{% endif %}</td>
+				<td>{{el.deadline|date:"d.m.Y H:i"}}</td>
+				<td><a href="{%url 'task' el.id%}">Подробнее</a></td>
+				<td><a href="{%url 'update-task' el.id%}">Редактировать</a></td>
+				<td><a href="{%url 'delete-task' el.id%}">Удалить</a></td>
+			</tr>
+			{%empty%}
+			<h3>В списке нет элементов</h3>
+			{%endfor%}					
 		</table>
 	<a href="{%url 'add-task'%}">Добавить задачу</a>
 	<br><br>
-	<a href="{%url 'tasks'%}">К списку</a>
-	</body>
-</html>
+{% endblock %}

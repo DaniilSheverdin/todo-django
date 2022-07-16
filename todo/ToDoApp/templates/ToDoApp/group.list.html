@@ -1,0 +1,18 @@
+{% extends "layout/basic.html" %}
+{% block title %}Категории{% endblock %}
+{% block content %}
+		<h3>Категории:</h3>
+			<table>
+				{% for g in groups %}
+				<tr>
+					<td><a href="{% url 'group' g.id %}">{{g.name}}</a></td>
+					<td><a href="{%url 'delete-group' g.id%}">удалить</a></td>
+					<td><a href="{%url 'update-group' g.id%}">редактировать</a></td>
+				</tr>
+				{% endfor %}
+			</table>	
+			<br>
+			<div>
+				<a href="{% url 'add-group' %}">Добавить категорию</a>
+			</div>
+{% endblock %}
